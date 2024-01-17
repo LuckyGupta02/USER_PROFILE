@@ -1,0 +1,36 @@
+.body{
+  padding-top: 200px;
+  padding-left: 450px ;
+  align-content: center;
+  }
+.register{
+  margin-left: 600px;
+  margin-top: 100px;
+}
+.searchInput{
+  max-width: 500px;
+}
+.formInput{
+  text-align: center;
+}
+.form{
+  width: 500px;
+}
+:host ::ng-deep i {
+  font-size: 32px;
+  color: #999;
+}
+:host ::ng-deep .ant-upload-text {
+  margin-top: 8px;
+  color: #666;
+}
+.editable-tag ::ng-deep .ant-tag {
+  background: rgb(255, 255, 255);
+  float: left;
+  width: 250px;
+  height: 30px;
+}
+.img{
+  height:140px;
+  width: 120px;
+}

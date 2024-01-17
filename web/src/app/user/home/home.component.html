@@ -1,0 +1,121 @@
+<div class="body">
+  <div>
+    <h1>Search your dream job....</h1>
+    <nz-input-group  class="searchInput" nzSize="large" [nzSuffix]="suffixButton">
+      <input type="text" nz-input placeholder="search">
+    </nz-input-group>
+    <ng-template #suffixButton>
+      <button nz-button nzType="primary" nzSize="large" >Search</button>
+    </ng-template>
+  </div>
+  <br>
+  <br>
+  <button nz-button [nzType]="'primary'" (click)="showRegistration()"><span>Registration</span></button>
+
+    <nz-modal class="form" [(nzVisible)]="isVisible" nzTitle="Registration" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+      <form nz-form class="formInput" [formGroup]="myForm">
+        <nz-form-item>
+          <nz-upload  class="avatar-uploader"
+          nzName="avatar"
+          nzListType="picture-card"
+          [nzShowUploadList]="false"
+          [nzBeforeUpload]="beforeUpload"
+          (nzChange)="handleChange($event)">
+          <ng-container class="upload" *ngIf="!avatarUrl">
+            <i nz-icon type="plus"></i>
+            <div class="ant-upload-text">Upload</div>
+          </ng-container>
+          <img class="avatar-uploader" class="img" *ngIf="avatarUrl" [src]="avatarUrl">
+        </nz-upload>
+        </nz-form-item>
+        <ng-container>
+          <nz-form-item >
+            <nz-form-label [nzSpan]="6" nzFor="firstName">First Name </nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <input nz-input  formControlName="firstName" type="text" id="fname">
+            </nz-form-control>
+          </nz-form-item >
+
+          <nz-form-item  >
+            <nz-form-label [nzSpan]="6" nzFor="lastName">Last Name </nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <input nz-input formControlName="lastName" type="text" id="lname">
+            </nz-form-control>
+          </nz-form-item >
+
+          <nz-form-item >
+            <nz-form-label [nzSpan]="6" nzFor="age">Age</nz-form-label>
+            <nz-form-control [nzSpan]="14" >
+              <nz-slider formControlName="age" [nzDefaultValue]="18"></nz-slider>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item >
+            <nz-form-label [nzSpan]="6" nzFor="intrest">Intrest</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+            <nz-tag
+            *ngIf="!inputVisible"
+            class="editable-tag"
+            (click)="showInput()">
+            <i nz-icon type="plus"></i> Add Intrest
+          </nz-tag>
+            <input
+              #inputElement
+              nz-input
+              *ngIf="inputVisible"
+              nzSize="small"
+              type="text"
+              style="width: 250px;"
+              (blur)="handleInputConfirm()"
+              (keydown.enter)="handleInputConfirm()"
+              formControlName="intrest">
+          <br>
+          <nz-tag
+              *ngFor="let intrest of intrests; let i = index;"
+              [nzMode]="i === -1 ? 'default' : 'closeable'"
+              (nzAfterClose)="handleClose(intrest)"
+              formControlName="intrest"
+              >
+              {{ intrestTag(intrest) }}
+            </nz-tag>
+              
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="6" nzFor="address">Select Address</nz-form-label>
+          <nz-select style="width: 200px; float: left;" formControlName="address" nzAllowClear nzPlaceHolder="Choose">
+            <nz-option nzValue="Home" (click)="selectCompany()" nzLabel="Home"></nz-option>
+            <nz-option nzValue="Company" (click)="selectCompany()" nzLabel="Company"></nz-option>
+          </nz-select>
+          </nz-form-item>
+
+          <ng-container  *ngIf="myForm.get('address').value === 'Home'">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="6" nzFor="address1"> Address1</nz-form-label>
+              <textarea style=" width: 250px; float: left;" formControlName="address1" nz-input placeholder="Autosize height based on content lines" nzAutosize></textarea>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSpan]="6" nzFor="address2"> Address2</nz-form-label>
+              <textarea style="width: 250px; float: left;" formControlName="address2" nz-input placeholder="Autosize height based on content lines" nzAutosize></textarea>
+            </nz-form-item>
+          </ng-container>
+
+          <ng-container  *ngIf="myForm.get('address').value === 'Company'">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="6" nzFor="address1">Company Add1</nz-form-label>
+              <textarea style=" width: 250px; float: left;" formControlName="address1" nz-input placeholder="Autosize height based on content lines" nzAutosize></textarea>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSpan]="6" nzFor="address2">Company Add2</nz-form-label>
+              <textarea style="width: 250px; float: left;" formControlName="address2" nz-input placeholder="Autosize height based on content lines" nzAutosize></textarea>
+            </nz-form-item>
+          </ng-container>
+
+        </ng-container>
+        
+      </form>
+    </nz-modal>
+
+</div>

@@ -1,0 +1,21 @@
+.img{
+    height:310px;
+    width: 325px;
+}
+.profileContent{
+    margin-left: 20px;
+    margin-top: 54px;
+    width: 450px;
+    height: 310px;
+}
+
+.profile{
+    display: flex;
+    margin-top: 20px;
+}
+.displayProfile{
+    font-size: large;
+}
+.photo{
+    margin-left: 20px;
+}
