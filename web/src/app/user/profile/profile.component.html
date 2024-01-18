@@ -1,40 +1,34 @@
 <div *ngIf="user" class="profile">
   <div class="photo">
-  <ng-container>
-    <h1>Profile</h1>
     <ng-container>
-    <img class="img" [src]="user.img" *ngIf="uploadPhoto==='false'">
-    
-    <br>
-    <br>
-    <nz-upload
-    nzAction="http://127.0.0.1:3000/photos"
-    [nzShowUploadList]="false"
-    (nzChange)="handleChange($event)"
-    >
-    <button nz-button nzType="primary">
-      <span>Edit Photo</span>
-    </button>
-    </nz-upload>
-    &nbsp;&nbsp;
-    <button style="margin-left:10px" nz-button nzType="primary" (click)="editUserProfile()">Edit Profile</button>
-    &nbsp;&nbsp;
-  </ng-container>
-  </ng-container>
+      <h1>Profile</h1>
+      <ng-container>
+        <img class="img" [src]="user.img" *ngIf="uploadPhoto==='false'">
+        <br>
+        <br>
+        <nz-upload nzAction="http://127.0.0.1:3000/users" [nzShowUploadList]="false" (nzChange)="handleChange($event)">
+          <button nz-button nzType="primary">
+            <span>Edit Photo</span>
+          </button>
+        </nz-upload>
+        &nbsp;&nbsp;
+        <button style="margin-left:10px" nz-button nzType="primary" (click)="editUserProfile()">Edit Profile</button>
+        &nbsp;&nbsp;
+      </ng-container>
+    </ng-container>
   </div>
-<div class="profileContent">
+  <div class="profileContent">
     <ng-container *ngIf="editProfile==='false'">
-    <p class="displayProfile">
-      {{profileContent}}
-    </p>
-  </ng-container>
-  <ng-container *ngIf="editProfile==='true'">
-    <textarea nz-input class="displayProfile" [(ngModel)]="profileContent" placeholder="profileContent" nzAutosize></textarea>
-    <button nz-button nzType="primary" (click)="saveProfile()">Save Profile</button>
-  </ng-container>
+      <p class="displayProfile">
+        {{profileContent}}
+      </p>
+    </ng-container>
+    <ng-container *ngIf="editProfile==='true'">
+      <textarea nz-input class="displayProfile" [(ngModel)]="profileContent" placeholder="profileContent" nzAutosize>
+    </textarea>
+      <br>
+      <br>
+      <button nz-button nzType="primary" (click)="saveProfile()">Save Profile</button>
+    </ng-container>
+  </div>
 </div>
-</div>
-
-
-
-

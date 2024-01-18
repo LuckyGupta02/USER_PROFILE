@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RegistrationComponent } from './registration/registration.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgZorroAntdModule, NZ_I18N, zh_CN, en_US } from 'ng-zorro-antd';
@@ -18,11 +17,10 @@ registerLocaleData(en);
 @NgModule({
   declarations: [
     AppComponent,
-    RegistrationComponent,
     HomeComponent,
     ProfileComponent,
   ],
-  entryComponents: [RegistrationComponent],
+  
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

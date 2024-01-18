@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef,ViewChild , OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService, UploadFile } from 'ng-zorro-antd';
 import { UserService } from '../userService';
@@ -15,7 +15,7 @@ export interface DialogData {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
   isVisible = false;
   addressValue = null;
   inputVisible = false;
@@ -23,13 +23,13 @@ export class HomeComponent implements OnInit{
   avatarUrl: string;
   myForm: FormGroup;
   addressVisible = false;
-  intrests = [  ];
+  intrests = [];
   inputValue = '';
-  maxSize = 310; 
+  maxSize = 310;
   maxHeight = 325;
   constructor(
-    private fb: FormBuilder, 
-    private msg: NzMessageService, 
+    private fb: FormBuilder,
+    private msg: NzMessageService,
     private http: HttpClient,
     private service: UserService,
     private router: Router) {
@@ -37,21 +37,21 @@ export class HomeComponent implements OnInit{
 
   ngOnInit(): void {
     this.myForm = this.fb.group({
-      img:'',
-      firstName: ['', [Validators.required]],
-      lastName:'',
-      age:'',
+      img: '',
+      firstName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]],
+      contact: '',
+      age: '',
       intrest: [],
-      address:'',
-      address1:'',
-      address2:'',
+      address: '',
+      address1: '',
+      address2: '',
     });
     this.selectCompany();
   }
 
   @ViewChild('inputElement') inputElement: ElementRef;
 
-  
+
   handleClose(removedIntrest: {}): void {
     this.intrests = this.intrests.filter(intrest => intrest !== removedIntrest);
   }
@@ -73,8 +73,8 @@ export class HomeComponent implements OnInit{
     if (!isJPG) {
       this.msg.error('You can only upload JPG file!');
     }
-    const isLt2M = file.size /1024 / 1024 < 2;
-    
+    const isLt2M = file.size / 1024 / 1024 < 2;
+
     if (!isLt2M) {
       this.msg.error('Image must smaller than 2MB!');
     }
@@ -88,11 +88,11 @@ export class HomeComponent implements OnInit{
   }
 
   handleChange(info: { file: UploadFile }): void {
-      // Get this url from response in real world.
-      this.getBase64(info.file.originFileObj, (img: string) => {
-        this.loading = false;
-        this.avatarUrl = img;
-      });
+    // Get this url from response in real world.
+    this.getBase64(info.file.originFileObj, (img: string) => {
+      this.loading = false;
+      this.avatarUrl = img;
+    });
   }
 
   handleInputConfirm(): void {
@@ -106,33 +106,46 @@ export class HomeComponent implements OnInit{
 
   selectCompany(): void {
     const address = this.myForm.get('address').value;
-    this.addressValue= address;
+    this.addressValue = address;
   }
 
   showRegistration(): void {
     this.isVisible = true;
   }
+
+  containsNumber = (inputString: string): boolean => {
+    // Use a regular expression to check if the string contains any digits
+    const hasNumber = /\d/.test(inputString);
+
+    return hasNumber;
+  };
+
   async handleOk() {
-    this.isVisible = false;
     this.myForm.patchValue({
-        intrest: this.intrests,
-        img: this.avatarUrl
+      intrest: this.intrests,
+      img: this.avatarUrl
     });
     const formData = this.myForm.value;
-    await this.service.createUser(formData)
-    .subscribe(response => {
-      const userId = response.id;
-      this.router.navigate([`/users/${userId}`]);
-      // Handle success, navigate, or perform other actions
-    }, error => {
-      console.error('Error creating user:', error);
-      // Handle error appropriately
-    });
+    if (formData.firstName && !this.containsNumber(formData.firstName)) {
+      await this.service.createUser(formData)
+        .subscribe(response => {
+          const userId = response.id;
+          this.router.navigate([`/users/${userId}`]);
+          // Handle success, navigate, or perform other actions
+        }, error => {
+          console.error('Error creating user:', error);
+          // Handle error appropriately
+        });
+      this.isVisible = false;
+    }
+    else {
+      alert("Invalid input")
+    }
   }
 
   handleCancel(): void {
     this.isVisible = false;
   }
 
-  
+
 }

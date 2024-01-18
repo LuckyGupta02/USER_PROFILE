@@ -3,7 +3,7 @@ export class User{
     id:number;
     img:string;
     firstName: string;
-    lastName: string;
+    contact: number;
     age: number;
     intrest: string[];
     address: string;
